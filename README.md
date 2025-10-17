@@ -3,15 +3,20 @@ A comprehensive Learning Management System with features for students and teache
 
 Features
 Bronze Level
+
 User Registration & Login
 Course Management (Teacher role)
 Silver Level
+
 Course Enrollment
 Gold Level
+
 Assignment Submission
 Platinum Level
+
 Grading System
 Advanced Features (forums, file uploads, notifications)
+
 Setup Instructions
 Frontend
 Open the index.html file in your browser
