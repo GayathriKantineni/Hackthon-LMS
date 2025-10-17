@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn LMS</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <h1>EduLearn</h1>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" id="homeLink">Home</a></li>
+                <li><a href="#" id="coursesLink">Courses</a></li>
+                <li><a href="#" id="dashboardLink">Dashboard</a></li>
+                <li><a href="#" id="loginLink">Login</a></li>
+                <li><a href="#" id="registerLink">Register</a></li>
+            </ul>
+            <div class="user-info" id="userInfo" style="display: none; position: relative;">
+                <button class="notif-btn" id="notifBtn" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+                </button>
+                <div class="notif-menu" id="notifMenu" style="display:none;">
+                    <div class="notif-header">Notifications</div>
+                    <div class="notif-list" id="notifList"></div>
+                    <button class="btn secondary-btn" id="markAllReadBtn" style="width:100%;margin-top:0.5rem;">Mark all read</button>
+                </div>
+                <button class="avatar-btn" id="profileBtn" aria-label="Profile">
+                    <span id="userAvatarText">U</span>
+                </button>
+                <button id="logoutBtn">Logout</button>
+                <div class="profile-menu" id="profileMenu" style="display:none;">
+                    <button class="profile-menu-item" id="profileMenuProfile">Profile</button>
+                    <button class="profile-menu-item" id="profileMenuDashboard">Dashboard</button>
+                    <button class="profile-menu-item danger" id="profileMenuLogout">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="homeSection" class="section active">
+                <div class="hero">
+                    <h1>Welcome to EduLearn</h1>
+                    <p>Your comprehensive learning management system</p>
+                    <button class="btn primary-btn" id="exploreBtn">Explore Courses</button>
+                </div>
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Quality Courses</h3>
+                        <p>Access high-quality courses taught by expert instructors</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Interactive Learning</h3>
+                        <p>Engage with interactive content and assignments</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Track Progress</h3>
+                        <p>Monitor your learning progress and achievements</p>
+                    </div>
+                </div>
+                <h2 style="margin-top:2rem">Available Courses</h2>
+                <div class="course-grid" id="homeCourseGrid"></div>
+            </section>
+
+            <!-- Courses Section -->
+            <section id="coursesSection" class="section">
+                <h2>Available Courses</h2>
+                <div class="course-filters">
+                    <input type="text" id="courseSearch" placeholder="Search courses...">
+                </div>
+                <div class="course-grid" id="courseGrid">
+                    <!-- Courses will be loaded here dynamically -->
+                </div>
+            </section>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="section">
+                <h2>My Dashboard</h2>
+                
+                <!-- Student Dashboard -->
+                <div id="studentDashboard" class="dashboard-container" style="display: none;">
+                    <div class="dashboard-card">
+                        <h3>My Courses</h3>
+                        <div id="enrolledCourses" class="dashboard-list">
+                            <!-- Enrolled courses will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>My Assignments</h3>
+                        <div id="studentAssignments" class="dashboard-list">
+                            <!-- Assignments will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>My Attendance</h3>
+                        <div id="studentAttendance" class="dashboard-list">
+                            <!-- Attendance summary will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>My Grades</h3>
+                        <div id="studentGrades" class="dashboard-list">
+                            <!-- Grades will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Teacher Dashboard -->
+                <div id="teacherDashboard" class="dashboard-container" style="display: none;">
+                    <div class="dashboard-card">
+                        <h3>My Courses</h3>
+                        <button class="btn secondary-btn" id="createCourseBtn">Create New Course</button>
+                        <div id="teacherCourses" class="dashboard-list">
+                            <!-- Teacher courses will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Manage Assignments</h3>
+                        <div id="teacherAssignments" class="dashboard-list">
+                            <!-- Assignments will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Attendance</h3>
+                        <div class="form-group">
+                            <label for="attendanceCourseSelect">Course</label>
+                            <select id="attendanceCourseSelect"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="attendanceDate">Date</label>
+                            <input type="date" id="attendanceDate">
+                        </div>
+                        <div id="attendanceList" class="dashboard-list">
+                            <!-- Student checkboxes will be loaded here -->
+                        </div>
+                        <button class="btn primary-btn" id="saveAttendanceBtn">Save Attendance</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Student Submissions</h3>
+                        <div id="studentSubmissions" class="dashboard-list">
+                            <!-- Submissions will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Not Logged In Message -->
+                <div id="dashboardNotLoggedIn" class="dashboard-container">
+                    <div class="message-card">
+                        <h3>Please Log In</h3>
+                        <p>You need to log in to access your dashboard</p>
+                        <button class="btn primary-btn" id="dashboardLoginBtn">Login</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profileSection" class="section">
+                <div class="container">
+                    <h2>My Profile</h2>
+                    <div class="dashboard-container">
+                        <div class="dashboard-card">
+                            <h3>Account</h3>
+                            <div class="dashboard-list">
+                                <div class="dashboard-item"><strong>Name:</strong> <span id="profileName">-</span></div>
+                                <div class="dashboard-item"><strong>Email:</strong> <span id="profileEmail">-</span></div>
+                                <div class="dashboard-item"><strong>Role:</strong> <span id="profileRole">-</span></div>
+                                <div class="dashboard-item">
+                                    <form id="profileForm">
+                                        <div class="form-group">
+                                            <label for="editName">Edit Name</label>
+                                            <input type="text" id="editName" placeholder="Full Name" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editEmail">Edit Email</label>
+                                            <input type="email" id="editEmail" placeholder="Email" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editPassword">New Password</label>
+                                            <input type="password" id="editPassword" placeholder="Leave blank to keep current" disabled>
+                                        </div>
+                                        <div style="display:flex; gap:0.5rem;">
+                                            <button type="button" class="btn secondary-btn" id="editToggleBtn">Edit</button>
+                                            <button type="submit" class="btn primary-btn" id="saveProfileBtn" disabled>Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>Stats</h3>
+                            <div class="dashboard-list">
+                                <div class="dashboard-item"><strong>Enrolled Courses:</strong> <span id="profileEnrolled">0</span></div>
+                                <div class="dashboard-item"><strong>Submissions:</strong> <span id="profileSubmissions">0</span></div>
+                                <div class="dashboard-item"><strong>Average Grade:</strong> <span id="profileAvgGrade">N/A</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Login Section -->
+            <section id="loginSection" class="section">
+                <div class="auth-container">
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Login</button>
+                    </form>
+                    <p>Don't have an account? <a href="#" id="goToRegister">Register here</a></p>
+                </div>
+            </section>
+
+            <!-- Register Section -->
+            <section id="registerSection" class="section">
+                <div class="auth-container">
+                    <h2>Register</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerRole">Role</label>
+                            <select id="registerRole" required>
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Register</button>
+                    </form>
+                    <p>Already have an account? <a href="#" id="goToLogin">Login here</a></p>
+                </div>
+            </section>
+
+            <!-- Course Detail Section -->
+            <section id="courseDetailSection" class="section">
+                <div class="course-detail-container">
+                    <div id="courseDetail">
+                        <!-- Course details will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Create Course Section -->
+            <section id="createCourseSection" class="section">
+                <div class="form-container">
+                    <h2>Create New Course</h2>
+                    <form id="createCourseForm">
+                        <div class="form-group">
+                            <label for="courseTitle">Course Title</label>
+                            <input type="text" id="courseTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDescription">Description</label>
+                            <textarea id="courseDescription" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDuration">Duration (e.g., "8 weeks")</label>
+                            <input type="text" id="courseDuration" required>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Create Course</button>
+                        <button type="button" class="btn secondary-btn" id="cancelCreateCourse">Cancel</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2023 EduLearn LMS. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal for messages -->
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('homeCourseGrid');
+      if (!grid) return;
+      fetch('/api/courses')
+        .then(res => res.json())
+        .then(courses => {
+          grid.innerHTML = '';
+          const top = Array.isArray(courses) ? courses.slice(0, 6) : [];
+          if (top.length === 0) {
+            grid.innerHTML = '<p>No courses available.</p>';
+            return;
+          }
+          const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+          top.forEach(course => {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.innerHTML = `
+              <div class="course-image"><i class="fas fa-book"></i></div>
+              <div class="course-content">
+                <h3>${course.title}</h3>
+                <p>${course.description.length > 100 ? course.description.substring(0, 100) + '...' : course.description}</p>
+                <div class="course-meta">
+                  <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                  <span><i class="fas fa-user"></i> ${course.teacher}</span>
+                </div>
+                <div class="course-actions">
+                  <button class="btn primary-btn view-course-btn" data-id="${course.id}">View</button>
+                  ${currentUser && currentUser.role === 'student' ? `<button class="btn secondary-btn enroll-btn" data-id="${course.id}">Enroll</button>` : ''}
+                </div>
+              </div>
+            `;
+            grid.appendChild(card);
+            const viewBtn = card.querySelector('.view-course-btn');
+            viewBtn.addEventListener('click', () => {
+              const link = document.getElementById('coursesLink');
+              if (link) link.click();
+            });
+            const enrollBtn = card.querySelector('.enroll-btn');
+            if (enrollBtn) {
+              enrollBtn.addEventListener('click', () => {
+                if (!currentUser) {
+                  alert('Please login as a student to enroll.');
+                  return;
+                }
+                fetch('/api/enroll', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ student_id: currentUser.id, course_id: course.id })
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.error) {
+                    alert(data.error);
+                  } else {
+                    alert('Enrolled successfully!');
+                  }
+                })
+                .catch(err => alert('Error enrolling: ' + err.message));
+              });
+            }
+          });
+        })
+        .catch(err => {
+          grid.innerHTML = '<p>Error loading courses.</p>';
+          console.error(err);
+        });
+    });
+    </script>
+</body>
+</html>
