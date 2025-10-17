@@ -23,8 +23,13 @@ Advanced Features (forums, file uploads, notifications)
 
 Setup Instructions
 Frontend
+
 Open the index.html file in your browser
+
 Backend
+
 Install Python requirements: pip install -r requirements.txt
+
 Run the server: python app.py
+
 Access the application at: http://localhost:5000
